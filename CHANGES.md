@@ -1,3 +1,5 @@
 ## initial
 
-initial version imported from mirage-random
+* seed is now done via mirage-entropy instead of gettimeofday (by OCaml stdlib),
+  thanks to Spencer Michaels and Jeff Dileo of NCC Group for reporting
+* initial version imported from mirage-random
