@@ -43,10 +43,19 @@ type t = { e : E.t ; token : E.token }
 let active = ref None
 and mx     = Lwt_mutex.create ()
 
-let initialize () =
-  let open Lwt.Infix in
-  Lwt_mutex.with_lock mx @@ fun () ->
-    let reg e = attach e >|= fun token -> active := Some { e ; token } in
-    match !active with
-    | Some _ -> Lwt.return_unit
-    | None -> E.connect () >>= reg
+module Make (Main : Mirage_main.S) = struct
+  type nonrec buffer = buffer
+  type nonrec g = g
+
+  module Entropy_connector = Entropy.Make(Main)
+
+  let initialize () =
+    let open Lwt.Infix in
+    Lwt_mutex.with_lock mx @@ fun () ->
+      let reg e = attach e >|= fun token -> active := Some { e ; token } in
+      match !active with
+      | Some _ -> Lwt.return_unit
+      | None -> Entropy_connector.connect () >>= reg
+
+  let generate = generate
+end

@@ -1,4 +1,4 @@
 (library
   (name mirage_random_stdlib)
   (public_name mirage-random-stdlib)
-  (libraries cstruct mirage-entropy lwt mirage-random))
+  (libraries cstruct mirage-os-shim mirage-entropy lwt mirage-random))

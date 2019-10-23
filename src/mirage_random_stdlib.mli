@@ -14,6 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-include Mirage_random.C
-
-val initialize : unit -> unit Lwt.t
+module Make (Main : Mirage_main.S) : sig
+  include Mirage_random.C
+  val initialize : unit -> unit Lwt.t
+end
